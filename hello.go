@@ -35,5 +35,7 @@ func main() {
 	input = strings.TrimSpace(input)
 
 	guess, err := strconv.Atoi(input)
-
+	if err != nil {
+		log.Fatal(err)
+	}
 }
