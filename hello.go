@@ -17,25 +17,45 @@ func main() {
 	rand.Seed(seconds)
 
 	target := rand.Intn(100) + 1
-	fmt.Println("Я выбираю число до 100")
-	fmt.Println("Число выбрано")
+	fmt.Println("Я выбираю число до 100.")
+	fmt.Println("Число выбрано.")
 
-	fmt.Println(target)
+	// fmt.Println(target)
 
 	reader := bufio.NewReader(os.Stdin)
 
-	fmt.Print("Введите число: ")
+	success := false
 
-	input, err := reader.ReadString('\n')
+	for guesses := 0; guesses < 10; guesses++ {
 
-	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Осталось", 10-guesses, "попыток")
+		fmt.Print("Введите число: ")
+
+		input, err := reader.ReadString('\n')
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		input = strings.TrimSpace(input)
+
+		guess, err := strconv.Atoi(input)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if guess > target {
+			fmt.Println("Загаданное число меньше)")
+		} else if guess < target {
+			fmt.Println("Загаданное число больше(")
+		} else {
+			success = true
+			fmt.Println("Вы угадали!")
+			break
+		}
 	}
 
-	input = strings.TrimSpace(input)
-
-	guess, err := strconv.Atoi(input)
-	if err != nil {
-		log.Fatal(err)
+	if !success {
+		fmt.Println("Вы не угадали! Было загадано число", target)
 	}
 }
